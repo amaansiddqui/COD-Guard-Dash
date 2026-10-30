@@ -1,0 +1,13 @@
+{
+  "name": "cod-guard-mern",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["backend", "frontend"],
+  "scripts": {
+    "dev": "concurrently -k \"npm run dev --workspace=cod-guard-api\" \"npm run dev --workspace=cod-guard-web\"",
+    "build": "npm run build --workspace=cod-guard-web",
+    "test": "npm test --workspace=cod-guard-api",
+    "start:api": "npm start --workspace=cod-guard-api"
+  },
+  "devDependencies": { "concurrently": "^9.1.2" }
+}

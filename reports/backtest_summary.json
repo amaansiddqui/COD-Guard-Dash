@@ -1,0 +1,70 @@
+{
+  "dataset": {
+    "labelled_orders": 2017,
+    "rto": 573,
+    "delivered": 1444,
+    "rto_rate": 0.2840852751611304,
+    "date_min": "2026-04-01 02:10",
+    "date_max": "2026-09-30 23:04"
+  },
+  "holdout": {
+    "period": "2026-09",
+    "train_orders": 1683,
+    "validation_orders": 334,
+    "observed_rto_rate": 0.26047904191616766,
+    "roc_auc": 0.7390758062264414,
+    "brier_score": 0.16684166057943187,
+    "average_precision": 0.5099417127390777,
+    "mean_predicted_risk": 0.2855295200288223
+  },
+  "action_counts": {
+    "SHIP": 176,
+    "CONFIRM": 116,
+    "NUDGE": 13,
+    "HOLD": 29
+  },
+  "observed_rto_by_action": {
+    "SHIP": 0.125,
+    "CONFIRM": 0.3448275862068966,
+    "NUDGE": 0.38461538461538464,
+    "HOLD": 0.6896551724137931
+  },
+  "financial_impact": {
+    "orders": 334,
+    "saved_rto_cost": 7868.210023388938,
+    "genuine_cancel_loss": 4556.861292229239,
+    "discount_cost": 91,
+    "first_order_cac_exposure": 8100,
+    "expected_avoided_rtos": 46.44752079922634,
+    "net_impact": 3220.348731159699
+  },
+  "latest_sample_day": {
+    "date": "2026-09-30",
+    "orders": 9,
+    "action_counts": {
+      "SHIP": 4,
+      "CONFIRM": 3,
+      "NUDGE": 1,
+      "HOLD": 1
+    }
+  },
+  "policy": {
+    "ship_max_risk": 0.25,
+    "confirm_max_risk": 0.45,
+    "hold_risk_returning": 0.72,
+    "hold_risk_first_time": 0.88,
+    "confirmation_response_rate": 0.7,
+    "confirmation_rto_reduction": 0.5,
+    "prepaid_conversion_rate": 0.35,
+    "prepaid_rto_rate": 0.04,
+    "prepaid_discount": 20,
+    "gross_margin_rate": 0.62,
+    "average_order_value": 649,
+    "new_customer_cac": 300,
+    "forward_shipping": 65,
+    "return_shipping": 65,
+    "packaging_handling": 25,
+    "damage_rate": 0.08,
+    "returned_product_cost": 180
+  }
+}

@@ -1,0 +1,25 @@
+import { useEffect, useState } from 'react';
+import { Activity, Database, Gauge, TrendingUp } from 'lucide-react';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { api } from '../services/api.js';
+
+const percent = (value) => `${(Number(value || 0) * 100).toFixed(1)}%`;
+export default function DataModel() {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState('');
+  useEffect(() => { api('/model').then(setData).catch((err) => setError(err.message)); }, []);
+  if (error) return <div className="error-banner">{error}</div>;
+  if (!data) return <div className="loading-card">Inspecting dataset and model...</div>;
+  const sourceData = data.segments.utm_source.map((item) => ({ name: item.segment.replaceAll('_', ' '), orders: item.orders, rto: item.rto_rate * 100 }));
+  return <div className="page-stack">
+    <div className="page-heading-row"><div><div className="eyebrow">MODEL TRANSPARENCY / DATA QUALITY</div><h1>Know what the model knows</h1><p className="page-subtitle">Dataset coverage, time-based model validation, and segment patterns from the supplied orders file.</p></div><div className="step-pill"><Database size={16} /> Dataset audit</div></div>
+    <section className="metric-grid data-metrics"><Metric label="Labelled orders" value={data.dataset.labelled_orders.toLocaleString('en-IN')} helper="DELIVERED + RTO" icon={Database} /><Metric label="Observed RTO" value={percent(data.dataset.rto_rate)} helper={`${data.dataset.rto} return-to-origin outcomes`} icon={TrendingUp} /><Metric label="ROC-AUC" value={Number(data.training.metrics.roc_auc).toFixed(3)} helper="September chronological holdout" icon={Gauge} /><Metric label="Brier score" value={Number(data.training.metrics.brier_score).toFixed(3)} helper="Lower is better for probability accuracy" icon={Activity} /></section>
+    <div className="two-column-grid">
+      <section className="panel"><div className="panel-heading"><div><h2>RTO by acquisition source</h2><p>Counts shown in the sample; rate is observed historical RTO.</p></div></div><div className="chart-wrap"><ResponsiveContainer width="100%" height={270}><BarChart data={sourceData} margin={{ top: 10, right: 8, left: -12, bottom: 8 }}><CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#edf0f5" /><XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#8290a6', fontSize: 11 }} /><YAxis unit="%" axisLine={false} tickLine={false} tick={{ fill: '#8290a6', fontSize: 11 }} /><Tooltip formatter={(value, name) => [name === 'rto' ? `${Number(value).toFixed(1)}%` : value, name === 'rto' ? 'Observed RTO' : 'Orders']} /><Bar dataKey="rto" fill="#557cf4" radius={[7, 7, 0, 0]} /></BarChart></ResponsiveContainer></div></section>
+      <section className="panel"><div className="panel-heading"><div><h2>Training and test split</h2><p>{data.training.period} was held out from training.</p></div></div><div className="split-visual"><div className="split-segment train"><b>{data.training.train_orders}</b><span>Train rows · April–August</span></div><div className="split-segment test"><b>{data.training.validation_orders}</b><span>Test rows · September</span></div></div><p className="muted small-copy">{data.training.note} The final scoring model is then retrained on all labelled rows for new orders.</p><div className="model-stat-grid two"><div><span>Average precision</span><b>{Number(data.training.metrics.average_precision).toFixed(3)}</b></div><div><span>Mean predicted risk</span><b>{percent(data.training.metrics.mean_predicted_risk)}</b></div></div></section>
+    </div>
+    <section className="panel"><div className="panel-heading"><div><h2>Segment facts</h2><p>Small samples are not sufficient reason to block a location or courier.</p></div></div><div className="segment-tables">{[['utm_source', 'Acquisition source'], ['city', 'Top cities'], ['courier', 'Courier']].map(([key, title]) => <div className="segment-table-block" key={key}><h3>{title}</h3><div className="table-scroll"><table className="data-table"><thead><tr><th>Segment</th><th>Orders</th><th>RTO</th><th>RTO rate</th></tr></thead><tbody>{data.segments[key].map((item) => <tr key={item.segment}><td>{item.segment}</td><td>{item.orders}</td><td>{item.rto}</td><td><b>{percent(item.rto_rate)}</b></td></tr>)}</tbody></table></div></div>)}</div></section>
+    <div className="notice-bar"><Activity size={17} /><span><b>Model limitations:</b> The sample contains COD history only. It cannot learn prepaid conversion or true WhatsApp response impact. City and pincode are soft signals, not automatic blocklists. Re-check calibration after production orders arrive.</span></div>
+  </div>;
+}
+function Metric({ label, value, helper, icon: Icon }) { return <div className="metric-card"><div className="metric-top"><span>{label}</span><span className="metric-icon blue"><Icon size={18} /></span></div><div className="metric-value">{value}</div><div className="metric-helper">{helper}</div></div>; }
