@@ -1,0 +1,22 @@
+
+--------------Decision Log----------------
+
+1. Technology: JavaScript with React.js, Node.js and Express.js. I considered Python with Streamlit or keeping a Python
+model behind a JavaScript frontend. I chose a JavaScript-first build because the assignment does not require a particular
+language and this lets the dashboard, API and decision logic run in one stack. MongoDB is supported through
+Mongoose, with a local JSON fallback so the demo can also run without a database server.
+
+2. Use a JavaScript logistic-regression model for RTO prediction.
+
+3. Keep the LLM optional and limit it to address understanding.
+
+4. Use a simple, single-page dashboard with a form for input and a results display. 
+   The dashboard will be built with React.js and styled with CSS.
+
+5. Implement a RESTful API with Express.js to handle requests from the frontend and communicate with the logistic regression model.
+
+6. Treat unclear replies and no reply as a reason to pause.
+
+7. Show the latest date in the file, not a made-up live date.
+
+8. Use a local JSON file to store the latest date and any other necessary state information, ensuring that the application can function without a database server.

@@ -1,0 +1,57 @@
+ 
+1.----------------- AI TOOLS USED------------------------
+
+ChatGPT (OpenAI) && Claude
+
+I used ChatGPT as an AI development assistant throughout this assignment.
+
+I mainly used it for:
+- Dynmaic UI design and implementation.
+- Requirement Analysis: Understanding the assignment and breaking it into four parts: the decision engine, WhatsApp confirmation flow, founder dashboard, and business memo 
+  and make Mind map of the key concepts.
+- Machine Learning: Understanding and implementing Logistic Regression in JavaScript to predict the probability of an order being returned to origin (RTO).
+
+
+2. EXAMPLES OF AI SUGGESTIONS THAT I IMPROVED
+
+Example 1: Choosing the Programming Language
+
+What went wrong:
+The initial project implementation was created using Python and Streamlit. However, I wanted to demonstrate my JavaScript and MERN stack development skills.
+
+How I caught it:
+I reviewed the assignment requirements and confirmed that no specific programming language was mandatory.
+
+How I fixed it:
+I changed the implementation to React.js, Node.js, Express.js, and MongoDB. I also implemented the risk-prediction logic directly in JavaScript instead of depending on a Python service.
+
+Example 2: Financial Impact Calculation
+
+What was weak:
+The initial financial explanation did not clearly distinguish between an order being temporarily held and an order being permanently cancelled. This could make the estimated business loss look higher than the actual loss.
+
+How I caught it:
+I reviewed the financial assumptions and realised that not every held order should be treated as a lost sale.
+
+How I fixed it:
+I separated estimated avoided RTO costs from the potential contribution loss of genuine orders. I also documented the assumptions so that the founder can understand how the financial impact is calculated.
+
+
+3. HOW I VALIDATED AI-GENERATED WORK
+
+I did not rely on AI-generated answers without reviewing them.
+
+My validation approach included:
+
+- Comparing the analysis against the actual supplied CSV dataset.
+- Checking model performance using chronological training and testing data.
+- Running backend unit tests.
+- Reviewing API logic and decision thresholds.
+- Checking financial calculations and documenting assumptions.
+- Reviewing the generated documentation to ensure it matched the implemented project.
+
+4. MY KEY LEARNING
+
+Using AI helped me work faster, understand unfamiliar concepts, and structure the project more efficiently. However, I learned that AI-generated code and explanations are not always correct or suitable for the actual business problem.
+
+I treated AI as a development assistant rather than allowing it to make every decision. I reviewed its suggestions, questioned weak assumptions, and made changes based on the assignment requirements and dataset.
